@@ -1,5 +1,6 @@
 package com.coupon.issuecouponservice.service.coupon;
 
+import com.coupon.issuecouponservice.domain.user.Role;
 import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -36,18 +38,32 @@ class CouponServiceTest {
 
     CouponIssueParam couponIssueParam;
 
-    List<User> users;
+    List<User> users = new ArrayList<>();
+
+//    List<User> users;
 
     @BeforeEach
     void setUp() {
         couponIssueParam = new CouponIssueParam(1L);
-
-        users = userRepository.findAll();
+        for (int i = 0; i < 1000; i++ ) {
+            User user = User.builder()
+                    .username("test" + i)
+                    .nickName("Test" + i)
+                    .role(Role.USER)
+                    .email("test" + i + "@example.com")
+                    .provider("test")
+                    .providerId("test" + i)
+                    .build();
+            userRepository.save(user);
+            users.add(user);
+        }
+//        users = userRepository.findAll();
     }
 
     @AfterEach
     void after() {
         userCouponRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -55,8 +71,9 @@ class CouponServiceTest {
     @DisplayName("쿠폰 한 명 발급")
     void 쿠폰한명_발급() {
         // given
-        User user = userRepository.findById(1L).get();
+//        User user = userRepository.findById(1L).get();
 
+        User user = users.get(0);
         // when
         couponService.issueCoupon(couponIssueParam, user);
 
