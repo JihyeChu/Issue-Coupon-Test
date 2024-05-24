@@ -25,9 +25,9 @@ jobs:
         uses: samin/mysql-action@v1
         with:
           character set server: 'utf8'
-          mysql database: 'test_coupon'
-          mysql user: 'root'
-          mysql password: 'dbsehdwn12!'
+          mysql database: test_coupon
+          mysql user: root
+          mysql password: dbsehdwn12!
 
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
