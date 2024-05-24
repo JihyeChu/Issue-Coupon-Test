@@ -4,6 +4,7 @@ import com.coupon.issuecouponservice.domain.coupon.Coupon;
 import com.coupon.issuecouponservice.domain.user.Role;
 import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
+import com.coupon.issuecouponservice.facade.RedisLockStockFacade;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
@@ -15,12 +16,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @TestPropertySource(locations = "/application-test.properties")
@@ -30,8 +37,8 @@ class CouponServiceTest {
     @Autowired
     private CouponService couponService;
 
-    /*@Autowired
-    private RedisLockStockFacade redisLockStockFacade;*/
+    @Autowired
+    private RedisLockStockFacade redisLockStockFacade;
 
     @Autowired
     private UserCouponRepository userCouponRepository;
@@ -102,7 +109,7 @@ class CouponServiceTest {
         AssertionsForClassTypes.assertThat(count).isEqualTo(1L);
     }
 
-/*    @Test
+    @Test
     @DisplayName("쿠폰 여러 명 발급 - 레디슨")
     void issueCoupon_redisson() throws InterruptedException {
         int threadCount = 1000;
@@ -135,5 +142,5 @@ class CouponServiceTest {
         int count = userCouponRepository.countByCouponId(couponIssueParam.getCouponId());
 
         assertThat(count).isEqualTo(100);
-    }*/
+    }
 }
