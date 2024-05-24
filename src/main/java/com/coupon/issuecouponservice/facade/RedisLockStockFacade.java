@@ -1,16 +1,6 @@
 package com.coupon.issuecouponservice.facade;
 
-import com.coupon.issuecouponservice.domain.user.User;
-import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
-import com.coupon.issuecouponservice.service.coupon.CouponService;
-import lombok.RequiredArgsConstructor;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.springframework.stereotype.Component;
-
-import java.util.concurrent.TimeUnit;
-
-@Component
+/*@Component
 @RequiredArgsConstructor
 public class RedisLockStockFacade {
 
@@ -36,4 +26,4 @@ public class RedisLockStockFacade {
         }
     }
 
-}
+}*/
