@@ -15,24 +15,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: 'dbsehdwn12!'
-          MYSQL_DATABASE: 'testdb'
-          MYSQL_ROOT_HOST: "%"
-          MYSQL_CHARACTER_SET_SERVER: 'utf8mb4'
-          MYSQL_COLLATION_SERVER: 'utf8mb4_unicode_ci'
-
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost -u root --password=dbsehdwn12!" 
-          --health-interval=10s 
-          --health-timeout=5s 
-          --health-retries=3
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -40,6 +22,17 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
+            # MySQL 설정 추가
+      - name: Setup MySQL
+        uses: samin/mysql-action@v1
+        with:
+          mysql version: 'latest'  # MySQL 버전 명시
+          mysql root password: 'dbsehdwn12!'  # Root 비밀번호 설정
+          mysql database: 'test_coupon'  # 테스트에 사용할 데이터베이스 이름
+          mysql user: 'root'  # 데이터베이스 유저 이름
+          mysql password: 'dbsehdwn12!'  # 유저 비밀번호
+          character set server: 'utf8mb4'  # 문자셋 설정
+          collation server: 'utf8mb4_unicode_ci'  # 콜레이션 설정
 
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
