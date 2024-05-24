@@ -42,12 +42,12 @@ jobs:
 #          spring.jpa.properties.hibernate.format_sql=true
 #          EOF
 
-      - name: test properties 파일 생성
-        run: |
-          cd ./src/test/resources
-          touch ./application-test.properties
-          echo "${{ secrets.APPLICATION_TEST_YML }}" > ./application-test.properties
-        shell: bash
+#      - name: test properties 파일 생성
+#        run: |
+#          cd ./src/test/resources
+#          touch ./application-test.properties
+#          echo "${{ secrets.APPLICATION_TEST_YML }}" > ./application-test.properties
+#        shell: bash
 
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
