@@ -6,13 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
-permissions:
-  checks: write
-  pull-requests: write
+permissions: write-all
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,17 +20,13 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: MySQL 설치
+      - name: Setup MySQL
         uses: samin/mysql-action@v1
         with:
-          host port: 3306 # Optional, default value is 3306. The port of host
-          container port: 3307 # Optional, default value is 3306. The port of container
-          character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-          mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
-          mysql database: coupon_test # Optional, default value is "test". The specified database which will be create
-          mysql user: root # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Of course you can use secrets, too
-          mysql password: ${{ secrets.DB_PASSWORD }}
+          character set server: 'utf8'
+          mysql database: coupon_test
+          mysql user: root
+          mysql password: ${{ secrets.DB_PASSWORD }} # github Secret 탭에서 설정하세요!
 
       - name: test properties 파일 생성
         run: |
@@ -48,14 +41,15 @@ jobs:
 
       # Bulid Test
       - name: Build with Gradle
-#        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: build
+
+      - name: Build with Gradle
         run: ./gradlew build
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_USER_NAME: ${{ secrets.DB_USER_NAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-#        with:
-#          arguments: build
+
+      - name: Test with Gradle
+        run: ./gradlew test
 
       # PR conversation & Action에 몇 개의 테스트 중에 몇 개가 통과 되었는지
       # 어떤 테스트 파일에서 실패했는지 가르쳐 줌.
