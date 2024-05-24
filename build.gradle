@@ -41,17 +41,13 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.5'
 }
-
-/*
-test {
+tasks.named('test') {    useJUnitPlatform()}
+/*test {
 	useJUnitPlatform()
-*/
-/*	systemProperty("spring.datasource.url", System.getenv("DB_URL"))
+	systemProperty("spring.datasource.url", System.getenv("DB_URL"))
 	systemProperty("spring.datasource.username", System.getenv("DB_USER_NAME"))
-	systemProperty("spring.datasource.password", System.getenv("DB_PASSWORD"))*//*
-
-}
-*/
+	systemProperty("spring.datasource.password", System.getenv("DB_PASSWORD"))
+}*/
 
 // Github Actions에서 환경변수 설정하여 빌드
 // (secrets는 Github Actions의 보안 설정에 저장된 비밀 값)
