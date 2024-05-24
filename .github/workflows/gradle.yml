@@ -19,7 +19,7 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: coupon_test
+          MYSQL_DATABASE: coupon_test_test
 
     steps:
       - uses: actions/checkout@v3
@@ -28,14 +28,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-
-#      - name: Setup MySQL
-#        uses: samin/mysql-action@v1
-#        with:
-#          character set server: 'utf8'
-#          mysql database: coupon_test
-#          mysql user: root
-#          mysql password: ${{ secrets.DB_PASSWORD }} # github Secret 탭에서 설정하세요!
 
       - name: Generate application-test.properties
         run: |

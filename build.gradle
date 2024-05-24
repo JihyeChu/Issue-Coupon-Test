@@ -41,6 +41,7 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.5'
 }
+
 test {
 	useJUnitPlatform()
 }
