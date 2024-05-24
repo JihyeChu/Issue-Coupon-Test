@@ -13,19 +13,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: testdb
-          MYSQL_USER: root
-          MYSQL_PASSWORD: dbsehdwn12!
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3307:3306
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -34,11 +21,13 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Install dependent libraries
-        run: sudo apt-get install mysql-server
-
-
-
+      - name: Setup MySQL
+        uses: samin/mysql-action@v1
+        with:
+          character set server: 'utf8'
+          mysql database: 'test_coupon'
+          mysql user: 'root'
+          mysql password: 'dbsehdwn12!'
 
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
