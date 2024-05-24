@@ -1,4 +1,3 @@
-/*
 package com.coupon.issuecouponservice.facade;
 
 import com.coupon.issuecouponservice.domain.user.User;
@@ -30,6 +29,7 @@ public class RedisLockStockFacade {
                 return;
             }
             couponService.issueCoupon(couponIssueParam, user);
+
         } catch (InterruptedException e) {
             throw new RuntimeException();
         } finally {
@@ -38,4 +38,3 @@ public class RedisLockStockFacade {
     }
 
 }
-*/
