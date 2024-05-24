@@ -1,8 +1,10 @@
 package com.coupon.issuecouponservice.service.coupon;
 
+import com.coupon.issuecouponservice.domain.coupon.Coupon;
 import com.coupon.issuecouponservice.domain.user.Role;
 import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
+import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +37,15 @@ class CouponServiceTest {
     private UserCouponRepository userCouponRepository;
 
     @Autowired
+    private CouponRepository couponRepository;
+
+
+    @Autowired
     private UserRepository userRepository;
 
     CouponIssueParam couponIssueParam;
+
+    Coupon coupon;
 
     List<User> users = new ArrayList<>();
 
@@ -44,7 +53,7 @@ class CouponServiceTest {
 
     @BeforeEach
     void setUp() {
-        couponIssueParam = new CouponIssueParam(1L);
+//        couponIssueParam = new CouponIssueParam(1L);
         for (int i = 0; i < 1000; i++ ) {
             User user = User.builder()
                     .username("test" + i)
@@ -57,12 +66,23 @@ class CouponServiceTest {
             userRepository.save(user);
             users.add(user);
         }
+        coupon = Coupon.builder()
+                .couponName("테스트 쿠폰")
+                .couponImage("image")
+                .expiredAt(LocalDateTime.now().plusDays(30))
+                .totalQuantity(100)
+                .build();
+
+        couponRepository.save(coupon);
+
+        couponIssueParam = new CouponIssueParam(coupon.getId());
 //        users = userRepository.findAll();
     }
 
     @AfterEach
     void after() {
         userCouponRepository.deleteAll();
+        couponRepository.deleteAll();
         userRepository.deleteAll();
     }
 
