@@ -35,35 +35,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+//	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+//	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.5'
 }
 
-test {
+tasks.named("test")	{
 	useJUnitPlatform()
 }
-/*test {
-	useJUnitPlatform()
-	systemProperty("spring.datasource.url", System.getenv("DB_URL"))
-	systemProperty("spring.datasource.username", System.getenv("DB_USER_NAME"))
-	systemProperty("spring.datasource.password", System.getenv("DB_PASSWORD"))
-}*/
-
-// Github Actions에서 환경변수 설정하여 빌드
-// (secrets는 Github Actions의 보안 설정에 저장된 비밀 값)
-// Gradle 플러그인은 스프링 부트 플러그인을 사용하는 것으로 가정합니다.
-/*tasks.register('buildWithGradle') {
-	dependsOn 'clean', 'assemble'
-	doLast {
-		exec {
-			commandLine './gradlew', 'build'
-			environment 'DB_URL', System.getenv("DB_URL")
-			environment 'DB_USER_NAME', System.getenv("DB_USER_NAME")
-			environment 'DB_PASSWORD', System.getenv("DB_PASSWORD")
-		}
-	}
-}*/
+//test {
+//	useJUnitPlatform()
+//}
 
