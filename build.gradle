@@ -43,6 +43,9 @@ dependencies {
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.5'
 }
 
-tasks.named('test') {
+tasks.test {
 	useJUnitPlatform()
+	systemProperty("spring.datasource.url", System.getenv("DB_URL"))
+	systemProperty("spring.datasource.username", System.getenv("DB_USER_NAME"))
+	systemProperty("spring.datasource.password", System.getenv("DB_PASSWORD"))
 }
