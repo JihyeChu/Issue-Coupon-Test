@@ -44,9 +44,9 @@ dependencies {
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.5'
 }
 
-//tasks.named("test")	{
-//	useJUnitPlatform()
-//}
+tasks.named("test")	{
+	useJUnitPlatform()
+}
 //test {
 //	useJUnitPlatform()
 //}
