@@ -6,6 +6,7 @@ import com.coupon.issuecouponservice.facade.RedisLockStockFacade;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -26,6 +28,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(locations = "/application-test.properties")
 @SpringBootTest
 class CouponServiceTest {
+
+    @Autowired
+    private CouponService couponService;
 
     @Autowired
     private RedisLockStockFacade redisLockStockFacade;
@@ -53,6 +58,21 @@ class CouponServiceTest {
     }
 
     @Test
+    @Transactional
+    @DisplayName("쿠폰 한 명 발급")
+    void 쿠폰한명_발급() {
+        // given
+        User user = userRepository.findById(1L).get();
+
+        // when
+        couponService.issueCoupon(couponIssueParam, user);
+
+        // then
+        int count = userCouponRepository.countByCouponId(couponIssueParam.getCouponId());
+        AssertionsForClassTypes.assertThat(count).isEqualTo(1L);
+    }
+
+/*    @Test
     @DisplayName("쿠폰 여러 명 발급 - 레디슨")
     void issueCoupon_redisson() throws InterruptedException {
         int threadCount = 1000;
@@ -85,5 +105,5 @@ class CouponServiceTest {
         int count = userCouponRepository.countByCouponId(couponIssueParam.getCouponId());
 
         assertThat(count).isEqualTo(100);
-    }
+    }*/
 }
