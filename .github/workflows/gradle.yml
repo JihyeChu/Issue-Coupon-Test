@@ -57,10 +57,6 @@ jobs:
 #          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
 
-      - name: 어플리케이션 실행 테스트(테스트 코드X)
-        run: ./gradlew clean build --exclude-task test
-
-
       # PR conversation & Action에 몇 개의 테스트 중에 몇 개가 통과 되었는지
       # 어떤 테스트 파일에서 실패했는지 가르쳐 줌.
       - name: Publish Test Results
