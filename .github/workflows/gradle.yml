@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  pull_request_target:
+    branches: [ "main" ]
 
 permissions: write-all
 
@@ -19,7 +21,7 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: coupon_test
+          MYSQL_DATABASE: ${{ secrets.DB }}
 
       redis:
         image: redis:latest

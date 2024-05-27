@@ -7,7 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
+public interface
+
+UserCouponRepository extends JpaRepository<UserCoupon, Long> {
 
     @Query("select uc from UserCoupon uc " +
             "join fetch uc.coupon " +
