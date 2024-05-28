@@ -141,4 +141,17 @@ class CouponServiceTest {
 
         assertThat(count).isEqualTo(100);
     }
+
+    @Test
+    @Transactional
+    @DisplayName("쿠폰 한 명 발급")
+    void 쿠폰_한_명_발급_추가() {
+        User user = users.get(0);
+        // when
+        couponService.issueCoupon(couponIssueParam, user);
+
+        // then
+        int count = userCouponRepository.countByCouponId(couponIssueParam.getCouponId());
+        AssertionsForClassTypes.assertThat(count).isEqualTo(1L);
+    }
 }
